@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yohaku — A Private Kominka by Omura Bay, Nagasaki</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1612;
+    --paper: #f5f0e8;
+    --sea: #4a7c8e;
+    --wood: #8b6f47;
+    --wood-light: #c4a882;
+    --mist: #e8e0d0;
+    --white: #fdfaf5;
+    --accent: #c0622d;
+    --moss: #4a5e3a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  /* LANG SWITCHER */
+  .lang-switcher { position: fixed; top: 1.2rem; right: 1.5rem; z-index: 999; display: flex; background: rgba(26,22,18,0.75); backdrop-filter: blur(8px); border: 1px solid rgba(253,250,245,0.2); border-radius: 2px; overflow: hidden; }
+  .lang-btn { display: inline-block; padding: 0.45em 0.9em; font-size: 0.72rem; letter-spacing: 0.12em; color: rgba(253,250,245,0.55); text-decoration: none; font-family: 'Inter', sans-serif; transition: all 0.25s ease; white-space: nowrap; }
+  .lang-btn.active { background: var(--accent); color: var(--white); }
+  .lang-btn:hover:not(.active) { color: var(--white); background: rgba(253,250,245,0.1); }
+  .lang-divider { width: 1px; background: rgba(253,250,245,0.2); }
+
+  /* HERO */
+  .hero { position: relative; height: 100svh; min-height: 600px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background-image: url('hero-bg.jpg'); background-size: cover; background-position: center 40%; transform: scale(1.05); animation: slowZoom 20s ease-in-out infinite alternate; }
+  @keyframes slowZoom { from { transform: scale(1.05); } to { transform: scale(1.12); } }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(26,22,18,0.05) 0%, rgba(26,22,18,0.2) 40%, rgba(26,22,18,0.75) 80%, rgba(26,22,18,0.95) 100%); }
+  .hero-badge { position: absolute; top: 6vh; left: 6vw; z-index: 3; animation: fadeIn 1.2s ease forwards; }
+  .hero-badge-main { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 3vw, 1.5rem); color: var(--white); letter-spacing: 0.2em; }
+  .hero-badge-sub { font-size: 0.65rem; color: var(--wood-light); letter-spacing: 0.25em; margin-top: 0.3rem; }
+  .hero-content { position: relative; z-index: 2; padding: 0 6vw 10vh; max-width: 800px; }
+  .hero-eyebrow { font-size: clamp(0.7rem, 2vw, 0.85rem); color: var(--wood-light); letter-spacing: 0.25em; margin-bottom: 1rem; font-weight: 300; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 8vw, 5.5rem); font-weight: 500; color: var(--white); line-height: 1.2; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.9s ease 0.6s forwards; }
+  .hero-title em { font-style: italic; color: var(--wood-light); display: block; font-size: 0.55em; font-weight: 400; letter-spacing: 0.05em; margin-top: 0.3em; }
+  .hero-sub { font-size: clamp(0.85rem, 2.5vw, 1rem); color: rgba(253,250,245,0.78); font-weight: 300; line-height: 2.1; max-width: 500px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.9s ease 0.8s forwards; }
+  .hero-cta { display: inline-block; padding: 0.9em 2.5em; background: var(--accent); color: var(--white); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.12em; text-decoration: none; transition: all 0.3s ease; opacity: 0; animation: fadeUp 0.9s ease 1s forwards; }
+  .hero-cta:hover { background: #a5521f; transform: translateY(-2px); }
+
+  /* ACCESS STRIP */
+  .access-strip { background: var(--moss); padding: 1.2rem 6vw; display: flex; gap: 3rem; flex-wrap: wrap; align-items: center; }
+  .access-item { display: flex; align-items: center; gap: 0.7rem; }
+  .access-icon { font-size: 1.1rem; }
+  .access-text { font-size: 0.82rem; color: rgba(253,250,245,0.85); letter-spacing: 0.05em; font-weight: 300; }
+  .access-text strong { color: var(--white); font-weight: 500; }
+
+  /* SECTION BASE */
+  .section-inner { max-width: 900px; margin: 0 auto; padding: 0 6vw; }
+  .section-label { font-size: 0.68rem; letter-spacing: 0.3em; color: var(--wood); margin-bottom: 1.2rem; font-weight: 500; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 500; line-height: 1.35; margin-bottom: 1.5rem; }
+  .section-body { font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 2.1; color: #3a3028; font-weight: 300; }
+
+  /* AFFINITY */
+  .affinity { background: var(--ink); padding: 12vw 0; }
+  .affinity .section-title { color: var(--white); }
+  .affinity .section-body { color: rgba(253,250,245,0.68); }
+  .affinity .section-label { color: var(--wood-light); }
+  .affinity-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.3rem, 4vw, 2.2rem); font-style: italic; color: var(--wood-light); line-height: 1.8; border-left: 3px solid var(--accent); padding-left: 1.5rem; margin: 3rem 0; }
+
+  /* PHOTO SPLIT */
+  .photo-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
+  .photo-split-img { position: relative; overflow: hidden; }
+  .photo-split-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+  .photo-split-img:hover img { transform: scale(1.04); }
+  .photo-split-text { background: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 6vw; }
+  .photo-split-text .section-title { color: var(--white); }
+  .photo-split-text .section-body { color: rgba(253,250,245,0.7); }
+  .photo-split-text .section-label { color: var(--wood-light); }
+
+  /* CONCEPT */
+  .concept { padding: 12vw 0; background: var(--white); }
+  .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 4rem; }
+  .concept-card { padding: 2.5rem 2rem; border: 1px solid var(--mist); position: relative; transition: background 0.3s ease; }
+  .concept-card:hover { background: var(--paper); }
+  .concept-number { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--mist); position: absolute; top: 1rem; right: 1.2rem; line-height: 1; }
+  .concept-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.7rem; }
+  .concept-card-body { font-size: 0.87rem; line-height: 1.9; color: #5a5048; font-weight: 300; }
+
+  /* LIVING */
+  .living { padding: 12vw 0; background: var(--paper); }
+  .living-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 3rem; }
+  .living-item { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; }
+  .living-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .living-item:hover img { transform: scale(1.06); }
+  .living-item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,22,18,0.88) 0%, transparent 55%); }
+  .living-item-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.2rem; z-index: 1; }
+  .living-item-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .living-item-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--white); font-weight: 600; }
+  .living-item-desc { font-size: 0.75rem; color: rgba(253,250,245,0.68); margin-top: 0.25rem; line-height: 1.5; font-weight: 300; }
+
+  /* FLOOR PLAN */
+  .floorplan { padding: 12vw 0; background: var(--white); }
+  .floorplan-img { margin-top: 3rem; width: 100%; border: 1px solid var(--mist); }
+  .floorplan-img img { width: 100%; display: block; }
+
+  /* COURSE */
+  .course { padding: 12vw 0; background: var(--ink); }
+  .course .section-title { color: var(--white); }
+  .course .section-body { color: rgba(253,250,245,0.65); }
+  .course .section-label { color: var(--wood-light); }
+  .course-maps { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 2.5rem; align-items: stretch; }
+  .course-maps img { width: 100%; height: 100%; object-fit: cover; display: block; border: 1px solid rgba(255,255,255,0.08); }
+  .course-tabs { display: flex; margin-top: 3rem; border-bottom: 1px solid rgba(253,250,245,0.15); }
+  .course-tab { padding: 0.8rem 1.5rem; font-size: 0.85rem; color: rgba(253,250,245,0.45); cursor: pointer; letter-spacing: 0.08em; border-bottom: 2px solid transparent; transition: all 0.3s ease; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
+  .course-tab.active { color: var(--wood-light); border-bottom-color: var(--accent); }
+  .course-content { display: none; }
+  .course-content.active { display: block; }
+  .course-days { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 2rem; background: rgba(253,250,245,0.08); }
+  .course-day { background: rgba(26,22,18,0.85); padding: 2rem 1.5rem; }
+  .course-day-label { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--accent); margin-bottom: 0.4rem; }
+  .course-day-theme { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); font-weight: 600; margin-bottom: 1rem; }
+  .course-day-items { list-style: none; }
+  .course-day-items li { font-size: 0.8rem; color: rgba(253,250,245,0.6); padding: 0.4rem 0; border-bottom: 1px solid rgba(253,250,245,0.07); font-weight: 300; line-height: 1.5; }
+  .course-day-items li:last-child { border-bottom: none; }
+
+  /* ACCESS SECTION */
+  .access-section { padding: 12vw 0; background: var(--moss); }
+  .access-section .section-title { color: var(--white); }
+  .access-section .section-body { color: rgba(253,250,245,0.75); }
+  .access-section .section-label { color: rgba(253,250,245,0.55); }
+  .access-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 3rem; background: rgba(253,250,245,0.12); }
+  .access-card { background: rgba(74,94,58,0.6); padding: 2.5rem 1.5rem; text-align: center; transition: background 0.3s ease; }
+  .access-card:hover { background: rgba(74,94,58,0.9); }
+  .access-card-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+  .access-card-from { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); font-weight: 600; margin-bottom: 0.5rem; }
+  .access-card-time { font-size: 1.6rem; font-family: 'Cormorant Garamond', serif; color: var(--wood-light); font-weight: 700; line-height: 1; margin-bottom: 0.3rem; }
+  .access-card-detail { font-size: 0.75rem; color: rgba(253,250,245,0.6); line-height: 1.7; font-weight: 300; }
+
+  /* REVIEWS */
+  .reviews { padding: 12vw 0; background: var(--white); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+  .review-card { padding: 2rem; background: var(--paper); border-top: 3px solid var(--wood-light); }
+  .review-stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 0.8rem; }
+  .review-text { font-size: 0.87rem; line-height: 1.9; color: #3a3028; font-weight: 300; margin-bottom: 1.2rem; }
+  .review-meta { font-size: 0.74rem; color: var(--wood); }
+
+  /* PRICING */
+  .pricing { padding: 12vw 0; background: var(--paper); }
+  .pricing-box { background: var(--white); border: 1px solid var(--mist); padding: 3rem; margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .pricing-label { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.8rem; }
+  .pricing-row { margin-bottom: 0.5rem; }
+  .pricing-amount { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 600; line-height: 1.3; }
+  .pricing-amount span { font-size: 0.85rem; font-weight: 400; color: #5a5048; margin-left: 0.3rem; }
+  .pricing-note { font-size: 0.8rem; color: #5a5048; margin-top: 0.8rem; line-height: 1.8; font-weight: 300; }
+  .discount-badge { display: inline-block; background: var(--accent); color: var(--white); font-size: 0.75rem; padding: 0.3em 0.9em; letter-spacing: 0.08em; margin-top: 1rem; font-family: 'Cormorant Garamond', serif; }
+  .pricing-perks { list-style: none; }
+  .pricing-perks li { padding: 0.7rem 0; border-bottom: 1px solid var(--mist); font-size: 0.88rem; display: flex; align-items: center; gap: 0.7rem; font-weight: 300; }
+  .pricing-perks li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  /* CTA */
+  .cta-section { position: relative; padding: 16vw 0; background: var(--ink); text-align: center; overflow: hidden; }
+  .cta-section::before { content: 'YOHAKU'; font-family: 'Cormorant Garamond', serif; font-size: 22vw; color: rgba(253,250,245,0.025); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; white-space: nowrap; }
+  .cta-section .section-title { color: var(--white); position: relative; z-index: 1; }
+  .cta-section .section-body { color: rgba(253,250,245,0.55); max-width: 480px; margin: 0 auto 3rem; position: relative; z-index: 1; }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary { display: inline-block; padding: 1em 2.5em; background: var(--accent); color: var(--white); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s ease; }
+  .btn-primary:hover { background: #a5521f; transform: translateY(-2px); }
+  .btn-secondary { display: inline-block; padding: 1em 2.5em; border: 1px solid rgba(253,250,245,0.35); color: rgba(253,250,245,0.78); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s ease; }
+  .btn-secondary:hover { border-color: var(--white); color: var(--white); }
+
+  /* FAQ */
+  .faq { padding: 12vw 0; background: var(--paper); }
+  .faq-list { margin-top: 3rem; }
+  .faq-item { border-bottom: 1px solid var(--mist); }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; gap: 1rem; }
+  .faq-icon { width: 26px; height: 26px; border: 1px solid var(--wood-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--wood); flex-shrink: 0; transition: transform 0.3s ease; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .faq-item.open .faq-a { max-height: 300px; }
+  .faq-a-inner { padding-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.9; color: #5a5048; font-weight: 300; }
+
+  /* FOOTER */
+  footer { background: var(--ink); padding: 4rem 6vw 3rem; text-align: center; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--white); letter-spacing: 0.3em; margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.72rem; color: rgba(253,250,245,0.35); letter-spacing: 0.2em; margin-bottom: 2rem; }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .footer-links a { font-size: 0.8rem; color: rgba(253,250,245,0.45); text-decoration: none; letter-spacing: 0.1em; transition: color 0.3s ease; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { font-size: 0.68rem; color: rgba(253,250,245,0.2); letter-spacing: 0.1em; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .concept-grid { grid-template-columns: 1fr; }
+    .photo-split { grid-template-columns: 1fr; }
+    .photo-split-img { min-height: 50vw; }
+    .living-grid { grid-template-columns: repeat(2, 1fr); }
+    .course-maps { grid-template-columns: 1fr; }
+    .course-days { grid-template-columns: 1fr; }
+    .access-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .pricing-box { grid-template-columns: 1fr; gap: 2rem; }
+    .access-strip { gap: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .living-grid { grid-template-columns: 1fr 1fr; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANG SWITCHER -->
+<div class="lang-switcher">
+  <a href="index.html" class="lang-btn">JP</a>
+  <div class="lang-divider"></div>
+  <a href="index_en.html" class="lang-btn active">EN</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-badge">
+    <div class="hero-badge-main">余　泊</div>
+    <div class="hero-badge-sub">YOHAKU — NAGASAKI, JAPAN</div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">A PRIVATE KOMINKA BY OMURA BAY · ONE GROUP PER DAY</p>
+    <h1 class="hero-title">
+      Not just a stay.<br>
+      <em>A few days of living in Japan.</em>
+    </h1>
+    <p class="hero-sub">
+      A restored Showa-era farmhouse on the shores of Omura Bay, Nagasaki.<br>
+      Entirely yours — for one group, one day at a time.<br>
+      Just 15 minutes from Nagasaki Airport.
+    </p>
+    <a href="#booking" class="hero-cta" onclick="event.preventDefault();document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});">Reserve →</a>
+  </div>
+</section>
+
+<!-- ACCESS STRIP -->
+<div class="access-strip reveal">
+  <div class="access-item">
+    <div class="access-icon">✈️</div>
+    <div class="access-text">From Osaka (ITM / KIX / UKB) <strong>approx. 1h 20min</strong></div>
+  </div>
+  <div class="access-item">
+    <div class="access-icon">✈️</div>
+    <div class="access-text">From Tokyo (HND / NRT) <strong>approx. 2 hours</strong></div>
+  </div>
+  <div class="access-item">
+    <div class="access-icon">🚗</div>
+    <div class="access-text">Nagasaki Airport to Yohaku <strong>approx. 15 min by car</strong></div>
+  </div>
+</div>
+
+<!-- AFFINITY -->
+<section class="affinity">
+  <div class="section-inner">
+    <p class="section-label reveal">THE PROBLEM</p>
+    <h2 class="section-title reveal">
+      Another hotel that could be anywhere.<br>
+      Or a place that feels genuinely Japanese.
+    </h2>
+    <div class="affinity-quote reveal">
+      "Same room, same breakfast, same view from the window.<br>
+      Where does the real Japan actually live?"
+    </div>
+    <p class="section-body reveal">
+      You've seen the famous temples. You've stayed in the polished hotels.<br>
+      And yet somehow, after every trip, something felt missing —<br>
+      the sense that you truly <em>lived</em> somewhere, even for a few days.<br><br>
+      Yohaku was made for that feeling.<br>
+      A single farmhouse, reserved for one group per day,<br>
+      overlooking the still waters of Omura Bay.<br>
+      Here, the warmth of local everyday life is still present in the walls.
+    </p>
+  </div>
+</section>
+
+<!-- PHOTO SPLIT: EXTERIOR -->
+<div class="photo-split">
+  <div class="photo-split-img">
+    <img src="exterior.jpg" alt="Yohaku exterior" loading="lazy">
+  </div>
+  <div class="photo-split-text">
+    <p class="section-label">PRIVATE SPACE</p>
+    <h2 class="section-title">A Showa farmhouse,<br>thoughtfully restored.</h2>
+    <p class="section-body">
+      This decades-old wooden house has been carefully renovated for Yohaku.<br>
+      Plastered walls, tatami floors, the wide engawa veranda —<br>
+      the atmosphere of a traditional Japanese home, preserved and renewed.<br><br>
+      From check-in to check-out, the entire house is yours.<br>
+      No other guests. No shared spaces. Just you and Omura Bay.
+    </p>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="concept">
+  <div class="section-inner">
+    <p class="section-label reveal">WHY YOHAKU</p>
+    <h2 class="section-title reveal">Four reasons to choose<br>Yohaku over a hotel.</h2>
+    <p class="section-body reveal">
+      Not a hotel, not a ryokan, not a resort chain.<br>
+      Yohaku offers something you won't find anywhere else.
+    </p>
+    <div class="concept-grid reveal">
+      <div class="concept-card">
+        <div class="concept-number">01</div>
+        <div class="concept-card-title">Complete Privacy</div>
+        <div class="concept-card-body">104㎡ of restored farmhouse, exclusively yours. No other guests. The entrance, garden, engawa and every room belong entirely to your group.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-number">02</div>
+        <div class="concept-card-title">Omura Bay & Silence</div>
+        <div class="concept-card-body">The bay stretches west beyond the engawa. At dusk, sit on the wide veranda and watch the sun sink into the water — a stillness that cities cannot offer.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-number">03</div>
+        <div class="concept-card-title">A Base for Nagasaki</div>
+        <div class="concept-card-body">15 minutes from the airport. Glover Garden, Huis Ten Bosch, Hasami & Arita pottery towns, Unzen hot springs — all within easy reach for day trips.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-number">04</div>
+        <div class="concept-card-title">Living, Not Just Staying</div>
+        <div class="concept-card-body">Cook local ingredients in a full kitchen, sleep in the tatami room, wake up to the bay in the morning. Feel what it means to actually live in Japan, even briefly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVING -->
+<section class="living">
+  <div class="section-inner">
+    <p class="section-label reveal">THE SPACE</p>
+    <h2 class="section-title reveal">Inside Yohaku</h2>
+    <p class="section-body reveal">
+      A Showa-era farmhouse restored with care — plastered walls intact,<br>
+      tatami laid fresh, the engawa widened to face the bay.<br>
+      Old bones, new life.
+    </p>
+  </div>
+  <div class="living-grid reveal" style="margin-top:3rem;">
+    <div class="living-item">
+      <img src="living.jpg" alt="Living room & tatami" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">🛋️</div>
+        <div class="living-item-name">Living Room & Tatami</div>
+        <div class="living-item-desc">Wood and washi — the quiet pulse of a Japanese interior.</div>
+      </div>
+    </div>
+    <div class="living-item">
+      <img src="engawa-sea.jpg" alt="Engawa veranda" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">🌊</div>
+        <div class="living-item-name">Engawa & Bay View</div>
+        <div class="living-item-desc">Omura Bay through the frame of the engawa. Morning or evening, it's yours alone.</div>
+      </div>
+    </div>
+    <div class="living-item">
+      <img src="kitchen.jpg" alt="Kitchen" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">🍳</div>
+        <div class="living-item-name">Full Kitchen</div>
+        <div class="living-item-desc">Cook with local ingredients from the nearby supermarket.</div>
+      </div>
+    </div>
+    <div class="living-item">
+      <img src="bath.jpg" alt="Open-air bath" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">♨️</div>
+        <div class="living-item-name">Open-Air Bath</div>
+        <div class="living-item-desc">Soak under the night sky and let the day dissolve.</div>
+      </div>
+    </div>
+    <div class="living-item">
+      <img src="workspace.jpg" alt="Workspace" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">💻</div>
+        <div class="living-item-name">Workspace</div>
+        <div class="living-item-desc">Wi-Fi included. Workation-ready for extended stays.</div>
+      </div>
+    </div>
+    <div class="living-item">
+      <img src="bedroom.jpg" alt="Bedroom" loading="lazy">
+      <div class="living-item-overlay"></div>
+      <div class="living-item-info">
+        <div class="living-item-icon">🛏️</div>
+        <div class="living-item-name">Bedroom</div>
+        <div class="living-item-desc">Double & semi-double beds, tatami futons available on request.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO SPLIT: SUNSET -->
+<div class="photo-split">
+  <div class="photo-split-text" style="background:#2d3a28;">
+    <p class="section-label" style="color:rgba(196,168,130,0.7);">SUNSET</p>
+    <h2 class="section-title" style="color:var(--white);">An evening on the<br>engawa, doing nothing.</h2>
+    <p class="section-body" style="color:rgba(253,250,245,0.68);">
+      Put down the phone. Set aside the itinerary.<br>
+      Watch the western sky turn orange above Omura Bay —<br>
+      a moment that asks nothing of you,<br>
+      and gives everything back.
+    </p>
+  </div>
+  <div class="photo-split-img">
+    <img src="bay-dusk.jpg" alt="Omura Bay at dusk" loading="lazy">
+  </div>
+</div>
+
+<!-- FLOOR PLAN -->
+<section class="floorplan">
+  <div class="section-inner">
+    <p class="section-label reveal">FLOOR PLAN</p>
+    <h2 class="section-title reveal">104㎡ — entirely<br>yours for the stay.</h2>
+    <p class="section-body reveal">
+      Two tatami rooms · living room · full kitchen · bathroom · study · open-air bath.<br>
+      A wide engawa overlooking Omura Bay runs the length of the house.<br>
+      Accommodates up to 8 guests. Families, groups, and workationers welcome.
+    </p>
+    <div class="floorplan-img reveal">
+      <img src="floorplan.jpg" alt="Yohaku floor plan" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- MODEL COURSE -->
+<section class="course">
+  <div class="section-inner">
+    <p class="section-label reveal">MODEL ITINERARY</p>
+    <h2 class="section-title reveal">Yohaku as your base<br>for exploring Nagasaki.</h2>
+    <p class="section-body reveal">
+      15 minutes from Nagasaki Airport. Glover Garden to the south, Huis Ten Bosch to the north.<br>
+      Hasami & Arita pottery towns, Unzen hot springs — all within a day trip.<br>
+      The longer you stay, the richer the journey.
+    </p>
+    <div class="course-maps reveal">
+      <img src="map-full.jpg" alt="Nagasaki area map" loading="lazy">
+      <img src="surroundings.jpg" alt="Surrounding area" loading="lazy">
+    </div>
+    <div class="course-tabs reveal">
+      <div class="course-tab active" onclick="showCourse('2n3d',this)">2 nights</div>
+      <div class="course-tab" onclick="showCourse('1n2d',this)">1 night</div>
+      <div class="course-tab" onclick="showCourse('3n4d',this)">3 nights</div>
+    </div>
+    <div id="course-2n3d" class="course-content active reveal">
+      <div class="course-days">
+        <div class="course-day">
+          <div class="course-day-label">DAY 1</div>
+          <div class="course-day-theme">Arrive & Settle In</div>
+          <ul class="course-day-items">
+            <li>Land at Nagasaki Airport → Check in (15 min)</li>
+            <li>Pick up local ingredients at the nearby supermarket</li>
+            <li>Cook dinner in the full kitchen</li>
+            <li>Watch the sun set over Omura Bay from the engawa</li>
+            <li>Soak in the open-air bath under the stars</li>
+          </ul>
+        </div>
+        <div class="course-day">
+          <div class="course-day-label">DAY 2</div>
+          <div class="course-day-theme">Nagasaki City</div>
+          <ul class="course-day-items">
+            <li>Glover Garden & Oura Cathedral (UNESCO)</li>
+            <li>Dejima & Megane-bashi (Spectacles Bridge)</li>
+            <li>Champon noodles in Shinchi Chinatown</li>
+            <li>Night view from Mt. Inasa</li>
+            <li>Return to Yohaku for a quiet evening</li>
+          </ul>
+        </div>
+        <div class="course-day">
+          <div class="course-day-label">DAY 3</div>
+          <div class="course-day-theme">Pottery Towns & Departure</div>
+          <ul class="course-day-items">
+            <li>Hasami & Arita — kilns and ceramic galleries</li>
+            <li>Shop for handmade pottery to bring home</li>
+            <li>Check out → Nagasaki Airport</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="course-1n2d" class="course-content">
+      <div class="course-days">
+        <div class="course-day">
+          <div class="course-day-label">DAY 1</div>
+          <div class="course-day-theme">Arrive & Explore</div>
+          <ul class="course-day-items">
+            <li>Arrive → Check in at Yohaku</li>
+            <li>Glover Garden & Oura Cathedral</li>
+            <li>Dinner in Shinchi Chinatown</li>
+            <li>Night view from Mt. Inasa</li>
+            <li>Return & open-air bath</li>
+          </ul>
+        </div>
+        <div class="course-day">
+          <div class="course-day-label">DAY 2</div>
+          <div class="course-day-theme">Morning at Yohaku</div>
+          <ul class="course-day-items">
+            <li>Wake up to Omura Bay from the engawa</li>
+            <li>Slow breakfast · check out</li>
+            <li>Hasami or Arita for pottery shopping</li>
+            <li>Nagasaki Airport → depart</li>
+          </ul>
+        </div>
+        <div class="course-day" style="opacity:0.35;">
+          <div class="course-day-label">OPTION</div>
+          <div class="course-day-theme">If you stay longer…</div>
+          <ul class="course-day-items">
+            <li>Unzen hot springs (90 min)</li>
+            <li>Huis Ten Bosch</li>
+            <li>Gunkanjima (Battleship Island) tour</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="course-3n4d" class="course-content">
+      <div class="course-days">
+        <div class="course-day">
+          <div class="course-day-label">DAY 1</div>
+          <div class="course-day-theme">Arrive & Unwind</div>
+          <ul class="course-day-items">
+            <li>Arrive · check in · grocery run</li>
+            <li>Rest on the engawa</li>
+            <li>Self-cooked dinner from local produce</li>
+          </ul>
+        </div>
+        <div class="course-day">
+          <div class="course-day-label">DAY 2</div>
+          <div class="course-day-theme">Nagasaki City</div>
+          <ul class="course-day-items">
+            <li>Glover Garden · Dejima · Megane-bashi</li>
+            <li>Lunch in Shinchi Chinatown</li>
+            <li>Waterfront park · old foreign settlement</li>
+            <li>Night view from Mt. Inasa</li>
+          </ul>
+        </div>
+        <div class="course-day">
+          <div class="course-day-label">DAY 3</div>
+          <div class="course-day-theme">Unzen & Onsen</div>
+          <ul class="course-day-items">
+            <li>Unzen hot springs — Jigoku (Hell Valleys)</li>
+            <li>Onsen soak · mountain scenery</li>
+            <li>Return to Yohaku · sunset on the engawa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS SECTION -->
+<section class="access-section">
+  <div class="section-inner">
+    <p class="section-label reveal">ACCESS</p>
+    <h2 class="section-title reveal">Closer than you think<br>from anywhere in Japan.</h2>
+    <p class="section-body reveal">
+      Nagasaki Airport serves direct domestic flights from major cities.<br>
+      Yohaku is just 15 minutes by car — free parking on site.
+    </p>
+    <div class="access-grid reveal">
+      <div class="access-card">
+        <div class="access-card-icon">✈️</div>
+        <div class="access-card-from">From Osaka</div>
+        <div class="access-card-time">approx. 1h 20min</div>
+        <div class="access-card-detail">JAL · ANA · multiple daily flights<br>ITM / KIX / UKB all served</div>
+      </div>
+      <div class="access-card">
+        <div class="access-card-icon">✈️</div>
+        <div class="access-card-from">From Tokyo</div>
+        <div class="access-card-time">approx. 2 hours</div>
+        <div class="access-card-detail">JAL · ANA · multiple daily flights<br>HND / NRT both served</div>
+      </div>
+      <div class="access-card">
+        <div class="access-card-icon">🚗</div>
+        <div class="access-card-from">Airport → Yohaku</div>
+        <div class="access-card-time">approx. 15 min</div>
+        <div class="access-card-detail">Rental car recommended<br>Free parking on site</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="section-inner">
+    <p class="section-label reveal">GUEST VOICES</p>
+    <h2 class="section-title reveal">What guests say</h2>
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">The sunset over Omura Bay from the engawa was unlike anything I've experienced in Japan. We completely forgot about Tokyo. We'll definitely be back.</p>
+        <div class="review-meta">🗾 Tokyo · couple · 2 nights</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Four of us rented the whole house — incredibly good value per person. Cooking fish we bought at the local supermarket, sitting on the tatami, visiting the pottery towns the next day. Perfect.</p>
+        <div class="review-meta">🗾 Osaka · group of 4 · 2 nights</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">I stayed three nights for a workation. The Wi-Fi was solid, the workspace comfortable, and looking up from the laptop to see the bay every few minutes was the best productivity hack I've found.</p>
+        <div class="review-meta">🗾 Nagoya · solo · 3 nights</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-inner">
+    <p class="section-label reveal">PRICING</p>
+    <h2 class="section-title reveal">Rates & multi-night discount</h2>
+    <div class="pricing-box reveal">
+      <div>
+        <div class="pricing-label">Whole house · per night</div>
+        <div class="pricing-row">
+          <div class="pricing-amount">¥29,370~<span>/ house (2 guests)</span></div>
+        </div>
+        <div class="pricing-row">
+          <div class="pricing-amount">¥41,140~<span>/ house (4 guests)</span></div>
+        </div>
+        <p class="pricing-note">
+          ※ Rates vary by season, day of week, and number of guests.<br>
+          Shared across a group, the per-person cost is remarkably reasonable.
+        </p>
+        <div class="discount-badge">Multi-night discount available</div>
+        <p class="pricing-note" style="margin-top:0.8rem;">
+          Book via the official site and stay 2+ nights —<br>
+          <strong>10% off</strong> from the second night onward.
+        </p>
+      </div>
+      <div>
+        <ul class="pricing-perks">
+          <li>Entire house exclusively yours (up to 8 guests)</li>
+          <li>Full kitchen with all cookware</li>
+          <li>2 tatami rooms · living room · engawa</li>
+          <li>Open-air bath & indoor bathroom</li>
+          <li>Workspace & Wi-Fi included</li>
+          <li>Free parking on site</li>
+          <li>Local sightseeing information provided</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div id="booking"></div>
+<section class="cta-section">
+  <div class="section-inner">
+    <p class="section-label" style="color:rgba(253,250,245,0.35);position:relative;z-index:1;">BOOKING</p>
+    <h2 class="section-title">One house. One group.<br>Waiting for you.</h2>
+    <p class="section-body">
+      Dates fill quickly — especially during Golden Week, Obon, and year-end.<br>
+      We recommend booking early to secure your preferred dates.
+    </p>
+    <div class="cta-buttons">
+      <a href="https://www.booking.com/hotel/jp/yohaku.ja.html?aid=356980&label=gog235jc-10CAsodUIGeW9oYWt1SBVYA2h1iAEBmAEzuAEXyAEM2AED6AEB-AEBiAIBqAIBuALqys7QBsACAdICJDA3YjU2ODg3LWRkOTktNDk5Ny05YjNkLTUxMzE1NjhkZmJlZdgCAeACAQ&sid=f8984f2ce9277d28c3fded207805d987&dest_id=-240631&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1779672436&srpvid=f3a30a35955a012a&type=total&ucfs=1&" class="btn-primary" target="_blank">Book on Booking.com</a>
+      <a href="https://reserve.489ban.net/client/yohaku-stay/0/plan/id/173077/stay" class="btn-secondary" target="_blank">Book via Official Site</a>
+      <a href="https://www.yohaku-stay.com/" class="btn-secondary" target="_blank">Yohaku Website</a>
+    </div>
+    <p style="margin-top:1.5rem;font-size:0.8rem;color:rgba(253,250,245,0.3);position:relative;z-index:1;letter-spacing:0.05em;">
+      For direct enquiries, please use the message function on each booking platform.
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-inner">
+    <p class="section-label reveal">FAQ</p>
+    <h2 class="section-title reveal">Frequently asked questions</h2>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How many guests can stay?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Up to 8 guests. The house is reserved exclusively for your group — no other guests. Ideal for families, friend groups, and workationers. Splitting the cost across a group makes it very affordable per person.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How do I get from Nagasaki Airport to Yohaku?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Approximately 15 minutes by car. Free on-site parking is available. We recommend renting a car at the airport for the most convenient access. Detailed directions and public transport options will be provided upon booking confirmation.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Is Yohaku suitable for workationers?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Stable Wi-Fi and a dedicated workspace are included. The calm environment and natural surroundings make it ideal for focused remote work. Extended stays are welcome.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Are meals provided?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Breakfast and dinner are not provided. The house has a fully equipped kitchen — cooking with local ingredients from the nearby supermarket is a highlight for many guests. Local restaurants are also within easy reach by car.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Is there a multi-night discount?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Book via the official site and stay 2 or more nights — the second night onward is 10% off. We recommend 2–3 nights to fully explore Nagasaki city, the Hasami & Arita pottery towns, and Unzen hot springs.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>What are the nearby attractions?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Nagasaki city (Glover Garden, Dejima, Chinatown, Mt. Inasa night view), Huis Ten Bosch (~30 min), Hasami & Arita pottery towns (~40 min), Unzen hot springs (~90 min). A local sightseeing guide is provided at check-in.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Yohaku</div>
+  <div class="footer-tagline">余泊 — A PRIVATE KOMINKA BY OMURA BAY, NAGASAKI</div>
+  <div class="footer-links">
+    <a href="https://www.booking.com/hotel/jp/yohaku.ja.html?aid=356980&label=gog235jc-10CAsodUIGeW9oYWt1SBVYA2h1iAEBmAEzuAEXyAEM2AED6AEB-AEBiAIBqAIBuALqys7QBsACAdICJDA3YjU2ODg3LWRkOTktNDk5Ny05YjNkLTUxMzE1NjhkZmJlZdgCAeACAQ&sid=f8984f2ce9277d28c3fded207805d987&dest_id=-240631&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1779672436&srpvid=f3a30a35955a012a&type=total&ucfs=1&" target="_blank">Booking.com</a>
+    <a href="https://reserve.489ban.net/client/yohaku-stay/0/plan/id/173077/stay" target="_blank">Official Reservation</a>
+    <a href="https://www.yohaku-stay.com/" target="_blank">Yohaku Website</a>
+    <a href="#booking">Reserve</a>
+  </div>
+  <div class="footer-copy">© 2026 余泊 Yohaku. All rights reserved.</div>
+</footer>
+
+<script>
+function showCourse(id, tab) {
+  document.querySelectorAll('.course-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.course-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('course-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+function toggleFaq(qEl) {
+  const item = qEl.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
